@@ -9,7 +9,6 @@ int is_blank(char c);
 main(){
     int len; /* current line length */
     char line[MAXLINE]; /* current input line */
-    char secondline[MAXLINE];
     int i;
     int last_non_blank;
     while ((len = getline(line, MAXLINE)) > 0){
