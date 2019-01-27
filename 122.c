@@ -11,7 +11,7 @@
 
 
 int getline(char s[], int lim);
-int find_last_non_blank(char s[], int len);
+int find_last_blank(char s[], int len);
 
 int main(){
     int len,i, last_blank;
