@@ -38,11 +38,11 @@ int main(){
 
 int fold_line(char line[], int last_non_blank, int len){
     int c,i;
-    for (i=0, c=line[0]; i<=last_non_blank; ++i, c=line[i]){
+    for (c=line[i=0]; i<=last_non_blank; c=line[++i]){
         putchar(c);
     }
     putchar('\n');
-    for (++i, c=line[i]; i<len; i++, c=line[i]){
+    for (c=line[++i]; i<len; c=line[++i]){
         putchar(c);
     }
 }
