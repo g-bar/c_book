@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#define N 10
+#define N 80
 #define TRUE 1
 #define FALSE 0
 
@@ -14,7 +14,7 @@ int getline(char s[], int lim);
 int find_last_non_blank(char s[], int len);
 
 int main(){
-    int len,i, last_non_blank;
+    int len,i, last_blank;
     int c;
     char line[N];
     int limit;
@@ -25,9 +25,9 @@ int main(){
         if (line[len-1] == '\n'){
             printf("%s", line);
         }
-        else if ((last_non_blank = find_last_non_blank(line, len)) >= 0){
-            fold_line(line, last_non_blank, len);
-            limit  = (N - len) + last_non_blank + 2;
+        else if ((last_blank = find_last_blank(line, len)) >= 0){
+            fold_line(line, last_blank, len);
+            limit  = (N - len) + last_blank + 1;
         } 
         else{
             printf("%s\n",line);
@@ -36,9 +36,9 @@ int main(){
     
 }
 
-int fold_line(char line[], int last_non_blank, int len){
+int fold_line(char line[], int last_blank, int len){
     int c,i;
-    for (c=line[i=0]; i<=last_non_blank; c=line[++i]){
+    for (c=line[i=0]; i<last_blank; c=line[++i]){
         putchar(c);
     }
     putchar('\n');
@@ -47,17 +47,12 @@ int fold_line(char line[], int last_non_blank, int len){
     }
 }
 
-int find_last_non_blank(char s[], int len){
-    int blank = FALSE;
+int find_last_blank(char s[], int len){
     int i, c;
     
-    for (i=len-1; i>=0; --i){
-        c = s[i];
-        
-        if (blank && (c != ' ' && c != '\t' && c != '\n'))
+    for (c = s[i=len-1]; i>=0; c=s[--i]){
+        if (c == ' ' || c == '\t' ){
             return i;
-        else if (c == ' ' || c == '\t' || c == '\n'){
-            blank = TRUE;
         }
     }
     return -1;
