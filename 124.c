@@ -18,7 +18,7 @@ int check_valid_escape_character(int c);
 
 int main(){
     int stack[MAXLEN];
-    int c,i,o, mode, opening_quote, previous;
+    int c,i,o, mode, opening_quote;
     i = o = 0;
     mode = STANDARD;
     
