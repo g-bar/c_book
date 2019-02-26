@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <limits.h>
 
-int nbytes(unsigned long long int n){
+int nbits(unsigned long long int n){
     int bytes = 1;
     while (n >>= 1){
         ++bytes;
@@ -96,17 +96,17 @@ int main(){
 
     //Values from limits.h
     printf("Ranges from limits.h\n\n");
-    printf("signed char range: %d to %d (%d bits)\n", SCHAR_MIN, SCHAR_MAX, nbytes(SCHAR_MAX * 2));
-    printf("char range: %d to %d (%d bits)\n", CHAR_MIN, CHAR_MAX, nbytes(CHAR_MAX * 2));
-    printf("short int range: %d to %d (%d bits)\n", SHRT_MIN, SHRT_MAX, nbytes(SHRT_MAX * 2 ));
-    printf("int range: %d to %d (%d bits)\n", INT_MIN, INT_MAX, nbytes((unsigned long long) (INT_MAX) * 2 ));
-    printf("long range %li to %li (%d bits)\n", LONG_MIN, LONG_MAX, nbytes((unsigned long long) (LONG_MAX) *2 ));
-    printf("long long range %lli to %lli (%d bits)\n", LLONG_MIN, LLONG_MAX, nbytes((unsigned long long) (LLONG_MAX) *2 ));
-    printf("unsigned char range 0 to %d (%d bits)\n", UCHAR_MAX, nbytes(UCHAR_MAX));
-    printf("unsigned short range 0 to %d (%d bits)\n", USHRT_MAX, nbytes(USHRT_MAX));
-    printf("unsigned int range 0 to %u (%d bits)\n", UINT_MAX, nbytes(UINT_MAX));
-    printf("unsigned long range 0 to %lu (%d bits)\n", ULONG_MAX, nbytes(ULONG_MAX));
-    printf("unsigned long long range 0 to %llu (%d bits)\n", ULLONG_MAX, nbytes(ULLONG_MAX));
+    printf("signed char range: %d to %d (%d bits)\n", SCHAR_MIN, SCHAR_MAX, nbits(SCHAR_MAX * 2));
+    printf("char range: %d to %d (%d bits)\n", CHAR_MIN, CHAR_MAX, nbits(CHAR_MAX * 2));
+    printf("short int range: %d to %d (%d bits)\n", SHRT_MIN, SHRT_MAX, nbits(SHRT_MAX * 2 ));
+    printf("int range: %d to %d (%d bits)\n", INT_MIN, INT_MAX, nbits((unsigned long long) (INT_MAX) * 2 ));
+    printf("long range %li to %li (%d bits)\n", LONG_MIN, LONG_MAX, nbits((unsigned long long) (LONG_MAX) *2 ));
+    printf("long long range %lli to %lli (%d bits)\n", LLONG_MIN, LLONG_MAX, nbits((unsigned long long) (LLONG_MAX) *2 ));
+    printf("unsigned char range 0 to %d (%d bits)\n", UCHAR_MAX, nbits(UCHAR_MAX));
+    printf("unsigned short range 0 to %d (%d bits)\n", USHRT_MAX, nbits(USHRT_MAX));
+    printf("unsigned int range 0 to %u (%d bits)\n", UINT_MAX, nbits(UINT_MAX));
+    printf("unsigned long range 0 to %lu (%d bits)\n", ULONG_MAX, nbits(ULONG_MAX));
+    printf("unsigned long long range 0 to %llu (%d bits)\n", ULLONG_MAX, nbits(ULLONG_MAX));
 
     //Computed ranges
     printf("\nComputed ranges\n\n");
