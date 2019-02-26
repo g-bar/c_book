@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <limits.h>
+#include <float.h>
 
 int nbits(unsigned long long int n){
     int bytes = 1;
@@ -121,6 +122,13 @@ int main(){
     uint_range();
     ulong_range();
     ullong_range();
+    printf("\n");
+    
+    //Floating point limits (float.h)
+    printf("Floating point number ranges from float.h\n\n");
+    printf("float range : %g to %g\n", FLT_MIN, FLT_MAX);
+    printf("double range: %g to %g\n", DBL_MIN, DBL_MAX);
+    printf("long double range : %g to %g\n", LDBL_MIN, LDBL_MAX);
 }
 
 
