@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include <limits.h>
 #include <float.h>
+#include <math.h>
+#define FLT 0
+#define DBL 1
+#define LDBL 2
 
 int nbits(unsigned long long int n){
     int bytes = 1;
@@ -93,6 +97,49 @@ void ullong_range(void){
     unsigned long long n = 0;
     printf("unsigned long long range: 0 to %llu\n", ~n);
 }
+
+void float_range(int precision){
+    int i;
+    long int min_exponent;
+    long int max_exponent;
+    int n;
+    long double prec;
+    long double min;
+    long double max;
+    char *prec_string;
+    
+    
+    switch(precision){
+        case FLT:
+            min_exponent = FLT_MIN_EXP;
+            max_exponent = FLT_MAX_EXP;
+            n = FLT_MANT_DIG;
+            prec_string = "float";
+            break;
+        case DBL:
+            min_exponent = DBL_MIN_EXP;
+            max_exponent = DBL_MAX_EXP;
+            n = DBL_MANT_DIG;
+            prec_string = "double";
+            break;
+        case LDBL:
+            min_exponent = LDBL_MIN_EXP;
+            max_exponent = LDBL_MAX_EXP;
+            n = LDBL_MANT_DIG;
+            prec_string = "long double";
+            break;
+    }
+    
+    prec = 0;
+    for(i=0;i<n;i++){
+        prec += exp2l(-i);
+    }
+    min =  exp2l(min_exponent - 1 );
+    max = prec * exp2l(max_exponent - 1);
+    
+    fputs(prec_string, stdout);
+    printf(" range %Lg to %Lg\n", min, max);
+}
 int main(){
 
     //Values from limits.h
@@ -128,7 +175,13 @@ int main(){
     printf("Floating point number ranges from float.h\n\n");
     printf("float range : %g to %g\n", FLT_MIN, FLT_MAX);
     printf("double range: %g to %g\n", DBL_MIN, DBL_MAX);
-    printf("long double range : %g to %g\n", LDBL_MIN, LDBL_MAX);
+    printf("long double range : %Lg to %Lg\n", LDBL_MIN, LDBL_MAX);
+
+    
+    //Floating point computed ranges
+    printf("\n");
+    printf("Floating point computed ranges\n\n");
+    float_range(FLT);
+    float_range(DBL);
+    float_range(LDBL);
 }
-
-
