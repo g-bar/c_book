@@ -96,7 +96,7 @@ void ullong_range(void){
 
 void float_range(void){
     /*  Using IEEE754 single precision standard
-        https://en.wikipedia.org/wiki/Double-precision_floating-point_format
+        https://en.wikipedia.org/wiki/Single-precision_floating-point_format
     */
     char min_bits[] = {0, /* mantissa */
                        0, /* mantissa */
