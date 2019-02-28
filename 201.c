@@ -130,7 +130,7 @@ void ldouble_range(void){
     /* Using x86 extended precision format (80-bit)
        https://en.wikipedia.org/wiki/Extended_precision#x86_extended_precision_format */
     char min_bits[] = {0,0,0,0,0,0,0, /* Rest of fraction */
-                      128, /* 1 0000000 Explicit integer bit and first 7 bits of fractional part
+                      128, /* 1 0000000 Explicit integer bit and first 7 bits of fractional part*/
                       1,/* Last 8 bits of exponent */
                       0 /* Sign and first 7 bits of exponent */};
     char max_bits[] = {255,255,255,255,255,255,255,255,254,127};
