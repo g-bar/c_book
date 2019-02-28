@@ -98,48 +98,54 @@ void ullong_range(void){
     printf("unsigned long long range: 0 to %llu\n", ~n);
 }
 
-void float_range(int precision){
-    int i;
-    long int min_exponent;
-    long int max_exponent;
-    int n;
-    long double prec;
-    long double min;
-    long double max;
-    char *prec_string;
-    
-    
-    switch(precision){
-        case FLT:
-            min_exponent = FLT_MIN_EXP;
-            max_exponent = FLT_MAX_EXP;
-            n = FLT_MANT_DIG;
-            prec_string = "float";
-            break;
-        case DBL:
-            min_exponent = DBL_MIN_EXP;
-            max_exponent = DBL_MAX_EXP;
-            n = DBL_MANT_DIG;
-            prec_string = "double";
-            break;
-        case LDBL:
-            min_exponent = LDBL_MIN_EXP;
-            max_exponent = LDBL_MAX_EXP;
-            n = LDBL_MANT_DIG;
-            prec_string = "long double";
-            break;
-    }
-    
-    prec = 0;
-    for(i=0;i<n;i++){
-        prec += exp2l(-i);
-    }
-    min =  exp2l(min_exponent - 1 );
-    max = prec * exp2l(max_exponent - 1);
-    
-    fputs(prec_string, stdout);
-    printf(" range %Lg to %Lg\n", min, max);
+void float_range(void){
+    /*  Using IEEE754 single precision standard
+        https://en.wikipedia.org/wiki/Double-precision_floating-point_format
+    */
+    char min_bits[] = {0, /* mantissa */
+                       0, /* mantissa */
+                       128, /*1 0000000 Last bit of exponent and first 7 bits of mantissa*/
+                       0 /* 0 0000000 Sign and first 7 bits of exponent*/ };
+    char max_bits[] = {255, 255, 127, 127};
+    float min, max;
+
+    min = * (float *) min_bits;
+    max = * (float *) max_bits;
+
+    printf("float range %g to %g\n", min, max);
 }
+
+void double_range(void){
+    /* Using IEE754 double precison standard 
+      https://en.wikipedia.org/wiki/Double-precision_floating-point_format */
+    char min_bits[] = {0,0,0,0,0,0, /* end of mantissa */
+                      16, /* 0001 0000 last 4 bits of exponent and first 4 bits of mantissa */
+                      0  /* sign and first 7 bits of exponent */};
+    char max_bits[] = {255,255,255,255,255,255, 239, 127};
+    double min, max;
+    
+    min = * (double *) min_bits;
+    max = * (double *) max_bits;
+
+    printf("double range %g to %g\n", min, max);
+}
+
+void ldouble_range(void){
+    /* Using x86 extended precision format (80-bit)
+       https://en.wikipedia.org/wiki/Extended_precision#x86_extended_precision_format */
+    char min_bits[] = {0,0,0,0,0,0,0, /* Rest of fraction */
+                      128, /* 1 0000000 Explicit integer bit and first 7 bits of fractional part
+                      1,/* Last 8 bits of exponent */
+                      0 /* Sign and first 7 bits of exponent */};
+    char max_bits[] = {255,255,255,255,255,255,255,255,254,127};
+    long double min, max;
+    
+    min = *(long double *) min_bits;
+    max = *(long double *) max_bits;
+    
+    printf("long double range %Lg to %Lg\n", min, max);
+}
+
 int main(){
 
     //Values from limits.h
@@ -181,7 +187,7 @@ int main(){
     //Floating point computed ranges
     printf("\n");
     printf("Floating point computed ranges\n\n");
-    float_range(FLT);
-    float_range(DBL);
-    float_range(LDBL);
+    float_range();
+    double_range();
+    ldouble_range();
 }
