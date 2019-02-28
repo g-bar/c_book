@@ -6,10 +6,6 @@
 #include <stdio.h>
 #include <limits.h>
 #include <float.h>
-#include <math.h>
-#define FLT 0
-#define DBL 1
-#define LDBL 2
 
 int nbits(unsigned long long int n){
     int bytes = 1;
