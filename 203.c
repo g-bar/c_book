@@ -3,7 +3,6 @@
 // through 9 , a through f , and A through F.
 
 #include <stdio.h>
-#include <string.h>
 #include <ctype.h>
 
 int htoi(char s[])
