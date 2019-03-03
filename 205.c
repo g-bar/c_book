@@ -7,13 +7,14 @@
 
 int any(char s1[], char s2[])
 {
-    int i, j, c;
-    for (i=0, c='\0'; s1[i] != '\0' && c == '\0' ; i++) {
-        for (j = 0; s1[i] != (c = s2[j]) && c != '\0'; j++)
+    int i, j;
+    i = 0;
+    do {
+        for (j = 0; s1[i] != s2[j] && s2[j] != '\0'; j++)
             ;
-    }
+    } while (s1[i++] != '\0' && s2[j] == '\0');
     
-    return c == '\0' ? -1 : i-1;
+    return s2[j] == '\0' ? -1 : --i;
 }
 
 
