@@ -4,9 +4,10 @@
 #include <stdio.h>
 
 int any(char s[], int c){
-    int i=0;
-    int sc;
-    while ((sc = s[i++]) != '\0' && sc != c);
+    int i, sc;
+    for (i=0 ; (sc = s[i]) != '\0' && sc != c; i++)
+        ; // empty for block
+    // If the for didn't reach the end of the string, at least one character in s matches c
     return sc != '\0';
 }
 
