@@ -7,7 +7,9 @@
 unsigned invert(unsigned x, int p, int n)
 {   
     unsigned mask = ~(~0<<n)<<p+1-n;
-    return x & ~mask | ~x & mask ;
+    // This is equivalent to x-or
+    // return x & ~mask | ~x & mask ; 
+    return x ^ mask;
 }
 
 
