@@ -3,4 +3,8 @@
 
 int rightrot(int x, int n){
         return (x & ~(~0<<n)) << sizeof x * 8 - n | (unsigned) x>>n;
+        /*
+        can be simplified to
+        return x<<sizeof x * 8 -n | (unsigned) x>>n;
+        */
 }
