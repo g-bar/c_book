@@ -10,13 +10,13 @@ void reverse(char s[]);
 void itob(int n, char s[], int b)
 {
     int i, sign;
-    int mod;
+    int digit;
     sign = n<0 ? -1 : 1;
     i = 0;
 
     do {  // generate digits in reverse order 
-        mod = sign * n%b;
-        s[i++] =  mod + (mod < 10 ? '0' : 'A' - 10); // get next digit 
+        digit = sign * n%b;
+        s[i++] =  digit + (digit < 10 ? '0' : 'A' - 10); // get next digit 
     } while ((n /= b) != 0); // delete it
     if (sign == -1)
         s[i++] = '-';
