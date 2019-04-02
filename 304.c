@@ -42,18 +42,8 @@ See below for a proposed solution that handles this case.
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
+#include <reverse.h>
 #define MAXLEN 12
-
-/* reverse: reverse string s in place */
-void reverse(char s[])
-{
-    int c, i, j;
-    for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
-        c = s[i];
-        s[i] = s[j];
-        s[j] = c;
-    }
-}
 
 //itoa: convert n to characters in s 
 void itoa(int n, char s[])
