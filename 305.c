@@ -3,9 +3,9 @@ character representation in the string s . In particular, itob(n,s,16) formats s
 hexadecimal integer in s . */
 
 #include <stdio.h>
-#include <string.h>
-
-void reverse(char s[]);
+#include <stdlib.h>
+#include <reverse.h>
+#define MAXLEN 12
 
 void itob(int n, char s[], int b)
 {
@@ -24,13 +24,16 @@ void itob(int n, char s[], int b)
     reverse(s);
 }
 
-/* reverse: reverse string s in place */
-void reverse(char s[])
-{
-    int c, i, j;
-    for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
-        c = s[i];
-        s[i] = s[j];
-        s[j] = c;
-    }
+int main(int argc, char ** argv){
+    int n, b;
+    char s[MAXLEN];
+    
+
+    n = strtol(argv[1], NULL, 10);
+    b = strtol(argv[2], NULL, 10);
+    
+    itob(n,s,b);
+
+    printf("%i in base %i is %s\n", n, b, s);
+
 }
