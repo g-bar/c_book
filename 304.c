@@ -41,7 +41,6 @@ See below for a proposed solution that handles this case.
 
 #include <limits.h>
 #include <stdio.h>
-#include <string.h>
 #include <reverse.h>
 #define MAXLEN 12
 
