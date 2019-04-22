@@ -1,11 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
-#define MAXOP 100 /* max size of operand or operator */
-#define NUMBER '0' /* signal that a number was found */
+#include <string.h>
+#include <constants.h>
 
 int getop(char []);
 void push(double);
 double pop(void);
+void show(int);
+void dup(void);
+void swap(void);
+void clear(void);
+void execute(char []); /*Execute a command*/
 
 /* reverse Polish calculator */
 int main(void)
@@ -17,6 +22,9 @@ int main(void)
         switch (type) {
             case NUMBER:
                 push(atof(s));
+                break;
+            case COMMAND:
+                execute(s);
                 break;
             case '+':
                 push(pop() + pop());
@@ -54,4 +62,19 @@ int main(void)
         }
     }
     return 0;
+}
+
+void execute(char s[])
+{
+    if (!strcmp(s, SHOW)){
+        show(pop());
+    }else if (!strcmp(s, SWAP)){
+        swap();
+    }else if (!strcmp(s, DUP)){
+        dup();
+    }else if (!strcmp(s, CLEAR)){
+        clear();
+    }else{
+        printf("error: unknowh command %s\n", s);
+    }
 }

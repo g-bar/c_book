@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
-#define NUMBER '0' /* signal that a number was found */
+#include <constants.h>
 
 int getch(void);
 void ungetch(int);
@@ -13,6 +13,17 @@ int getop(char s[])
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] = '\0';
+
+    if (isalpha(c)){
+        while (isalpha(s[++i] = c = getch()))
+        ;
+        if (c != EOF){
+            ungetch(c);
+            s[i] = '\0';
+        }
+        return COMMAND;
+    }
+
     if (!isdigit(c) && c != '.')
         return c; /* not a number */
     i = 0;
