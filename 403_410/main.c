@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
 #include <string.h>
+#include <math.h>
 #include <constants.h>
 
 int getop(char []);
@@ -66,15 +67,22 @@ int main(void)
 
 void execute(char s[])
 {
-    if (!strcmp(s, SHOW)){
+    if (!strcmp(s, "show")){
         show(pop());
-    }else if (!strcmp(s, SWAP)){
+    }else if (!strcmp(s, "swap")){
         swap();
-    }else if (!strcmp(s, DUP)){
+    }else if (!strcmp(s, "dup")){
         dup();
-    }else if (!strcmp(s, CLEAR)){
+    }else if (!strcmp(s, "clear")){
         clear();
-    }else{
+    } else if (!strcmp(s, "sin")){
+        push(sin(pop()));
+    } else if (!strcmp(s, "exp")){
+        push(exp(pop()));
+    }else if (!strcmp(s, "pow")){
+        int exp = pop();
+        push( pow(pop(), exp));
+    } else{
         printf("error: unknowh command %s\n", s);
     }
 }
