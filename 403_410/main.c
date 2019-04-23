@@ -83,6 +83,6 @@ void execute(char s[])
         int exp = pop();
         push( pow(pop(), exp));
     } else{
-        printf("error: unknowh command %s\n", s);
+        printf("error: unknown command %s\n", s);
     }
 }
