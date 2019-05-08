@@ -63,6 +63,7 @@ int main(void)
                 push(-pop());
                 break;
             case '=':
+                pop();
                 savevar(pop());
                 break;
             case '\n':
