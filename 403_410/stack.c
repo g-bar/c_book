@@ -3,6 +3,9 @@
 
 int sp = 0; /* next free stack position */
 double val[MAXVAL]; /* value stack */
+int vars[27];
+int lastvar;
+
 int max(int,int);
 
 /* push: push f onto value stack */
@@ -22,6 +25,19 @@ double pop(void)
         printf("error: stack empty\n");
         return 0.0;
     }
+}
+
+void pushvar(int var)
+{
+    if (var == '_')
+        var = 26 + 97;
+    push(vars[var-97]);
+    lastvar = var;
+}
+
+void savevar(double val)
+{
+    vars[lastvar-97] = val;
 }
 
 void show(int n)

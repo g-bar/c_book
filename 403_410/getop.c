@@ -16,12 +16,12 @@ int getop(char s[])
 
     if (isalpha(c)){
         while (isalpha(s[++i] = c = getch()))
-        ;
+            ;
         if (c != EOF){
             ungetch(c);
             s[i] = '\0';
         }
-        return COMMAND;
+        return i==1 ? s[0] : COMMAND;
     }
 
     if (!isdigit(c) && c != '.')
