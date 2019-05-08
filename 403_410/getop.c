@@ -56,3 +56,18 @@ void ungetch(int c) /* push character back on input */
     else
         buf[bufp++] = c;
 }
+
+
+/* Write a routine ungets(s) that will push back an entire string onto 
+input. Should ungets know about buf and bugp, or should it just use
+ungetch? */
+
+/* ungets doesn't need to know about buf or bufp. It can just use ungetch */
+
+void ungets(char s[])
+{
+    int i;
+    for (i=0; s[i] != '\0'; i++ ){
+        ungetch(s[i]);
+    }
+}
