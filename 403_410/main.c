@@ -22,6 +22,7 @@ int main(void)
     int type;
     double op2;
     char s[MAXOP];
+
     while ((type = getop(s)) != EOF) {
         if (islower(type) || type == '_'){
             pushvar(type);
