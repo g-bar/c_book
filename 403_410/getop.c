@@ -3,16 +3,11 @@
 #include <ctype.h>
 #include <constants.h>
 
-int getch(void);
-void ungetch(int);
-
-/* getop: get next character or numeric operand */
-
 char *line=NULL;
 size_t n;
 ssize_t chars;
 
-
+/* getop: get next character or numeric operand */
 int getop(char s[])
 {
     int i=0;
@@ -59,37 +54,4 @@ int getop(char s[])
             ;
     s[i] = '\0';
     return NUMBER;
-}
-
-
-char buf = '\0';
-
-int getch(void) /* get a (possibly pushed-back) character */
-{
-    int val = (buf != '\0') ? buf : getchar();
-    buf = '\0';
-    return val;
-}
-
-void ungetch(int c) /* push character back on input */
-{
-    if (c == EOF){
-        printf("error: cannot unget EOF");
-    }
-    buf = c;
-}
-
-
-/* Write a routine ungets(s) that will push back an entire string onto 
-input. Should ungets know about buf and bugp, or should it just use
-ungetch? */
-
-/* ungets doesn't need to know about buf or bufp. It can just use ungetch */
-
-void ungets(char s[])
-{
-    int i;
-    for (i=0; s[i] != '\0'; i++ ){
-        ungetch(s[i]);
-    }
 }
