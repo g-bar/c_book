@@ -3,16 +3,15 @@
 #include <ctype.h>
 #include <constants.h>
 
-char *line=NULL;
-size_t n;
-ssize_t chars;
-
 /* getop: get next character or numeric operand */
 int getop(char s[])
 {
+    static char *line=NULL;
+    size_t n = 0;
+    ssize_t chars;
+    
     int i=0;
     int c;
-    n = 0;
     
     if (line == NULL){
         chars = getline(&line, &n,stdin);
