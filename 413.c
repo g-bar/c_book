@@ -14,4 +14,7 @@ void reverse(char s[])
         reverse(s);
     }
 
+    i=0;
+    j=0;
+
 }
