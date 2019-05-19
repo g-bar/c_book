@@ -3,7 +3,7 @@ a string by calling a recursive routine. */
 
 void itoa(int n, char s[])
 {
-    static int i = 0, calls = 0;
+    static int i, calls;
     calls++;
     
     if (n<0){
@@ -15,11 +15,10 @@ void itoa(int n, char s[])
     }
     
     s[i++] = n%10 + '0';
-    s[i] = '\0';
-
     calls--;
     
     if (calls==0){
+        s[i] = '\0';
         i=0;
     }
 }
