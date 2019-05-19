@@ -2,21 +2,25 @@
 a string by calling a recursive routine. */
 #define MAXLEN 100
 
-char * itoa(int n)
+void itoa(int n, char s[])
 {
-    static char s[MAXLEN];
-    static int i;
-
+    static int i = 0, calls = 0;
+    calls++;
+    
     if (n<0){
         s[i++] = '-';
         n = -n;
     }
-
     if (n/10){
-        itoa(n/10);
+        itoa(n/10, s);
     }
-
+    
     s[i++] = n%10 + '0';
     s[i] = '\0';
-    return s;
+
+    calls--;
+    
+    if (calls==0){
+        i=0;
+    }
 }
