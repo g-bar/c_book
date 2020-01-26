@@ -29,12 +29,13 @@ int getfloat(double * pn) {
   if (c == '+' || c == '-' || c == '.') {
     d = getc(stdin);
 
-    if (!isdigit(d) && d != EOF) {
+    if (!isdigit(d) && d != EOF) { // If it's not a number put chars back in the stream and return
       ungetc(d, stdin);
       ungetc(c, stdin);
       return 0;
     }
 
+    /* If number start with . prepend a 0 */
     if (c == '.') {
       ungetc(d, stdin);
       ungetc('.', stdin);
