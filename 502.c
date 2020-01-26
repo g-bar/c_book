@@ -13,11 +13,11 @@ int main() {
   printf("%f", x);
 }
 
-/* getint: get next integer from input into *pn */
+/* getfloat: get next float from input into *pn */
 int getfloat(double * pn) {
   int c, d, sign;
   double mult = 1;
-  int start_fractional_part = 0;
+  int fractional_part = 0;
   while (isspace(c = getc(stdin))) /* skip white space */;
   if (!isdigit(c) && c != EOF && c != '+' && c != '-' && c != '.') {
     ungetc(c, stdin); /* it is not a number */
@@ -43,14 +43,12 @@ int getfloat(double * pn) {
 
   }
 
-  /* Integer part */
-
   for ( * pn = 0; isdigit(c) || c == '.'; c = getc(stdin)) {
-    // printf("%c ", c);
     if (c == '.') {
-      start_fractional_part = 1;
+      fractional_part = 1;
       continue;
     }
+
     if (start_fractional_part) mult *= 0.1;
     * pn = 10 * * pn + (c - '0');
   }

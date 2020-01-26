@@ -17,8 +17,8 @@ int getint(int * pn) {
   if (c == '+' || c == '-') d = getc(stdin);
 
   if (!isdigit(d) && d != EOF) {
-    ungetc(c, stdin);
     ungetc(d, stdin);
+    ungetc(c, stdin);
     return 0;
   }
 
