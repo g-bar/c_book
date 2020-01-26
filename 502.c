@@ -26,22 +26,26 @@ int getfloat(double * pn) {
 
   sign = (c == '-') ? -1 : 1;
 
-  if (c == '+' || c == '-' || c == '.') {
+  if (c == '+' || c == '-') {
     d = getc(stdin);
 
-    if (!isdigit(d) && d != EOF) { // If it's not a number put chars back in the stream and return
+    if (!isdigit(d) && d != EOF && d != '.') { // If it's not a number put chars back in the stream and return
       ungetc(d, stdin);
       ungetc(c, stdin);
       return 0;
     }
 
     /* If number start with . prepend a 0 */
-    if (c == '.') {
+    if (d == '.') {
       ungetc(d, stdin);
-      ungetc('.', stdin);
       c = '0';
-    } else if (c == '+' || c == '-') c = d;
+    } else c = d;
 
+  }
+
+  if (c == '.') {
+    ungetc(d, stdin);
+    c = '0';
   }
 
   for ( * pn = 0; isdigit(c) || c == '.'; c = getc(stdin)) {
@@ -50,7 +54,7 @@ int getfloat(double * pn) {
       continue;
     }
 
-    if (start_fractional_part) mult *= 0.1;
+    if (fractional_part) mult *= 0.1;
     * pn = 10 * * pn + (c - '0');
   }
 
