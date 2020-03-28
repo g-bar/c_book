@@ -4,7 +4,7 @@ atoi, itoa, and their variants (Chapters 2, 3, and 4), reverse (Chapter 3), and 
 
 #include <stdio.h>
 
-int getline(char *s, int lim)
+int getline_(char *s, int lim)
 {
     int c, i;
 
