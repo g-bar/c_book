@@ -76,3 +76,32 @@ void reverse(char *s)
     u = s;
     reverse_();
 }
+
+/* strindex: return index of t in s, -1 if none */
+int strindex(char *s, char *t)
+{
+
+    char *u;
+    char *v;
+    char *w;
+
+    u = v = s;
+
+    if (*s == '\0' || *t == '\0')
+        return -1;
+
+    for (; *u != '\0'; u++)
+    {
+
+        v = u;
+        w = t;
+
+        while (*w != '\0' && *v == *w)
+            v++, w++;
+
+        if (*w == '\0')
+            return u - s;
+    }
+
+    return -1;
+}
