@@ -1,10 +1,10 @@
 *
 o
 .vscode
-test.c
 example.txt
 *.exe
 *.bat
 utils.h
 !*.c
 !*.h
+test.c
