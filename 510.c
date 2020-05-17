@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
-#include <errno.h>
 
-/* find: print lines that match pattern from 1st arg */
 int main(int argc, char *argv[])
 {
     long double *buffer = malloc(100);
@@ -31,23 +28,23 @@ int main(int argc, char *argv[])
         {
             *buffer++ = number;
         }
+
         else if (*endptr)
         {
-            a = *(buffer - 2);
-            b = *(buffer - 1);
+            a = *(--buffer);
+            b = *(--buffer);
 
             if (*endptr == '+')
-                *(buffer - 2) = a + b;
+                *buffer = a + b;
             else if (*endptr == '-')
-                *(buffer - 2) = a - b;
+                *buffer = b - a;
             else if (*endptr == '*')
-                *(buffer - 2) = a * b;
+                *buffer = a * b;
             else
-                *(buffer - 2) = a / b;
+                *buffer = b / a;
 
-            buffer -= 2;
+            buffer++;
         }
     }
-
-    printf("%Lf\n", *buffer);
+    printf("%Lf\n", *(buffer - 1));
 }
