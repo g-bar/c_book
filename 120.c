@@ -6,21 +6,28 @@
 
 #define N 4
 
-int main(){
-    int c,i;
-    char tab[N];
-    for (i=0;i<N;i++){
-        tab[i] = ' ';
-    }
+int main()
+{
+    char c;
+    int column = 0;
 
-
-    while ((c = getchar()) != EOF){
-        if (c == '\t'){
-            printf("%s",tab);
+    while ((c = getchar()) != EOF)
+    {
+        column++;
+        if (c == '\t')
+        {
+            putchar(' ');
+            while ((++column - 1) % N != 0)
+            {
+                putchar(' ');
+            }
+            column--;
         }
-        else{
+        else
+        {
             putchar(c);
+            if (c == '\n')
+                column = 0;
         }
-
     }
 }
