@@ -10,27 +10,22 @@ fixed size. */
 #include <stdio.h>
 #include <errno.h>
 
-int badUsage()
-{
-    printf("Usage tail -n input \n");
-    return 1;
-    ;
-}
-
-
+size_t MAXLINES = 1000;
+size_t MAXLEN = 1000;
+int readlines(char *[]);
+int badUsage();
 
 int main(int argc, char *argv[])
 {
     long int n;
+    int nlines;
+    int currentline;
     char *endptr, *str;
-    char *input = argv[1];
+    char *lineptr = malloc(MAXLINES);
 
     // Parse input and check for errors
 
-    if (argc < 2)
-        return badUsage();
-
-    if (argc == 3)
+    if (argc == 2)
     {
         errno = 0;
         if (argv[1][0] != '-')
@@ -38,10 +33,43 @@ int main(int argc, char *argv[])
         n = strtol(++(argv[1]), &endptr, 10);
         if (errno == ERANGE)
             return badUsage();
-        input = argv[2];
     }
 
     n = n || 10;
 
+    nlines = readlines(lineptr);
+
+    while ((++currentline) > nlines - n && currentline < nlines)
+        printf("%s\n", lineptr++);
+
     return 0;
+}
+
+/* readlines: read input lines */
+int readlines(char *lineptr[])
+{
+    int len, nlines;
+    char *p, *line;
+    nlines = 0;
+    line = malloc(MAXLEN);
+    while ((len = getline(&line, &MAXLEN, stdin)) > 0)
+    {
+
+        if (nlines >= MAXLINES || (p = malloc(len)) == NULL)
+            return -1;
+        else
+        {
+            line[len - 1] = '\0'; /* delete newline */
+            strcpy(p, line);
+            lineptr[nlines++] = p;
+        }
+    }
+
+    return nlines;
+}
+
+int badUsage()
+{
+    printf("Usage tail -n input \n");
+    return 1;
 }
