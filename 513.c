@@ -17,9 +17,10 @@ int badUsage();
 
 int main(int argc, char *argv[])
 {
-    long int n;
+    long int n = 0;
     int nlines;
-    int currentline;
+    int firstout;
+    int currentline = 0;
     char *endptr, *str;
     char **lineptr = malloc(MAXLINES);
 
@@ -38,14 +39,15 @@ int main(int argc, char *argv[])
 
     n = n ? n : 10;
     nlines = readlines(lineptr);
+    if (n > nlines)
+        n = nlines;
 
-    printf("%ld, %d, %ld", n, nlines, nlines - n);
-
-    lineptr += nlines - n;
+    firstout = nlines - n;
+    lineptr += firstout;
 
     while (nlines--)
     {
-        if (++currentline > nlines - n)
+        if (++currentline > firstout)
             printf("%s\n", *lineptr++);
     }
 
