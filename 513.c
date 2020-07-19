@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     int nlines;
     int currentline;
     char *endptr, *str;
-    char *lineptr = malloc(MAXLINES);
+    char **lineptr = malloc(MAXLINES);
 
     // Parse input and check for errors
 
@@ -31,22 +31,22 @@ int main(int argc, char *argv[])
         if (argv[1][0] != '-')
             return badUsage();
         n = strtol(++(argv[1]), &endptr, 10);
+
         if (errno == ERANGE)
             return badUsage();
     }
 
-    n = n || 10;
-
+    n = n ? n : 10;
     nlines = readlines(lineptr);
 
-    while ((++currentline) > nlines - n && currentline < nlines)
-        printf("%s\n", lineptr++);
+    while ((++currentline) > (nlines - n) && currentline < nlines)
+        printf("%s\n", *lineptr++);
 
     return 0;
 }
 
 /* readlines: read input lines */
-int readlines(char *lineptr[])
+int readlines(char **lineptr)
 {
     int len, nlines;
     char *p, *line;
