@@ -39,8 +39,15 @@ int main(int argc, char *argv[])
     n = n ? n : 10;
     nlines = readlines(lineptr);
 
-    while ((++currentline) > (nlines - n) && currentline < nlines)
-        printf("%s\n", *lineptr++);
+    printf("%ld, %d, %ld", n, nlines, nlines - n);
+
+    lineptr += nlines - n;
+
+    while (nlines--)
+    {
+        if (++currentline > nlines - n)
+            printf("%s\n", *lineptr++);
+    }
 
     return 0;
 }
