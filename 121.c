@@ -7,27 +7,40 @@
 
 #define N 4
 
-int main(){
-    int c,i;
+int main()
+{
+    int c, col = 0;
     int blanks = 0;
-    int tabs, rem;
 
-    while ((c = getchar()) != EOF){
-        if (c == ' '){
+    while ((c = getchar()) != EOF)
+    {
+        if (c == '\n')
+        {
+            col = 0;
+            blanks = 0;
+            putchar(c);
+            continue;
+        }
+
+        col++;
+        if (col % N == 0) // Tabstop
+        {
+            putchar('\t');
+            blanks = 0;
+        }
+
+        else if (c == ' ')
+        {
             ++blanks;
             continue;
         }
-        else{
-            tabs = blanks / N;
-            rem = blanks % N;
-            for (i=0;i<tabs;i++){
-                putchar('\t');
-            }
-            for (i=0; i<rem; i++){
-                putchar(' ');
-            }
-            blanks = 0;
-            putchar(c);
+
+        for (int i = 0; i < blanks; i++)
+        {
+            putchar(' ');
         }
+
+        blanks = 0;
+        putchar(c);
     }
 }
