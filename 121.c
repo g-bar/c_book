@@ -23,7 +23,7 @@ int main()
         }
 
         col++;
-        if (col % N == 0) // Tabstop
+        if ((c == ' ' && col % N == 0))
         {
             putchar('\t');
             blanks = 0;
@@ -32,15 +32,17 @@ int main()
         else if (c == ' ')
         {
             ++blanks;
-            continue;
         }
 
-        for (int i = 0; i < blanks; i++)
+        else if (c != ' ')
         {
-            putchar(' ');
-        }
+            for (int i = 0; i < blanks; i++)
+            {
+                putchar(' ');
+            }
 
-        blanks = 0;
-        putchar(c);
+            blanks = 0;
+            putchar(c);
+        }
     }
 }
