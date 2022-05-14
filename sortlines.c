@@ -1,36 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAXLINES 100000  /* max #lines to be sorted */
-char *lineptr[MAXLINES]; /* pointers to text lines */
+
 int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
 void qsort_(void *v[], int left, int right, int (*comp)(const void *, const void *));
 void swap(void *v[], int i, int j);
 int numcmp(const char *s1, const char *s2);
 
-/* sort input lines */
-int main(int argc, char *argv[])
-{
-    int nlines;
-    int numeric = 0;
-
-    if (argc > 1 && strcmp(argv[1], "-n") == 0)
-        numeric = 1;
-
-    /* number of input lines read */
-    if ((nlines = readlines(lineptr, MAXLINES)) >= 0)
-    {
-        qsort_((void **)lineptr, 0, nlines - 1, (int (*)(const void *, const void *))(numeric ? numcmp : strcmp));
-        writelines(lineptr, nlines);
-        return 0;
-    }
-    else
-    {
-        printf("error: input too big to sort\n");
-        return 1;
-    }
-}
 size_t MAXLEN = 1000;
 
 /* readlines: read input lines */
