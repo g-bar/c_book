@@ -3,7 +3,7 @@
 #include <string.h>
 
 int readlines(char *lineptr[], int nlines);
-void writelines(char *lineptr[], int nlines);
+void writelines(char *lineptr[], int nlines, int reversed);
 void qsort_(void *v[], int left, int right, int (*comp)(const void *, const void *));
 void swap(void *v[], int i, int j);
 int numcmp(const char *s1, const char *s2);
@@ -34,10 +34,16 @@ int readlines(char *lineptr[], int maxlines)
 }
 
 /* writelines: write output lines */
-void writelines(char *lineptr[], int nlines)
+void writelines(char *lineptr[], int nlines, int reversed)
 {
+    if (reversed)
+        lineptr = lineptr + nlines;
+
     while (nlines-- > 0)
-        printf("%s\n", *lineptr++);
+        if (reversed)
+            printf("%s\n", *--lineptr);
+        else
+            printf("%s\n", *lineptr++);
 }
 
 /* qsort_: sort v[left]...v[right] into increasing order */

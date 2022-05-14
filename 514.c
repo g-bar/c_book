@@ -4,7 +4,7 @@
 #define MAXLINES 5000    /* max #lines to be sorted */
 char *lineptr[MAXLINES]; /* pointers to text lines */
 int readlines(char *lineptr[], int nlines);
-void writelines(char *lineptr[], int nlines);
+void writelines(char *lineptr[], int nlines, int reversed);
 void qsort_(void *v[], int left, int right, int (*comp)(const void *, const void *));
 int numcmp(const char *, const char *);
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0)
     {
         qsort_((void **)lineptr, 0, nlines - 1, (int (*)(const void *, const void *))(numeric ? numcmp : strcmp));
-        writelines(lineptr, nlines);
+        writelines(lineptr, nlines, reverse);
         return 0;
     }
     else
