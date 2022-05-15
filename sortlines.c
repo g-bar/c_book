@@ -1,17 +1,56 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-int readlines(char *lineptr[], int nlines);
+#define MAXLINES 5000    /* max #lines to be sorted */
+char *lineptr[MAXLINES]; /* pointers to text lines */
+int readlines(char *lineptr[], int nlines, int fold);
 void writelines(char *lineptr[], int nlines, int reversed);
 void qsort_(void *v[], int left, int right, int (*comp)(const void *, const void *));
 void swap(void *v[], int i, int j);
-int numcmp(const char *s1, const char *s2);
+int numcmp(const char *, const char *);
+int strcmp_(const char *s1, const char *s2);
+void foldchars(char *dest, const char *src);
+
+/* sort input lines */
+int main(int argc, char *argv[])
+{
+    int nlines;
+    int numeric = 0;
+    int reverse = 0;
+    int fold = 0;
+    int c = 0;
+    int i = 0;
+
+    while (--argc >= 1 && **++argv == '-')
+
+        while (c = *++*argv)
+        {
+            if (c == 'n')
+                numeric = 1;
+            if (c == 'r')
+                reverse = 1;
+            if (c == 'f')
+                fold = 1;
+        }
+
+    /* number of input lines read */
+    if ((nlines = readlines(lineptr, MAXLINES, fold)) >= 0)
+    {
+        qsort_((void **)lineptr, 0, nlines - 1, (int (*)(const void *, const void *))(numeric ? numcmp : strcmp_));
+        writelines(lineptr, nlines, reverse);
+        return 0;
+    }
+    else
+    {
+        printf("error: input too big to sort\n");
+        return 1;
+    }
+}
 
 size_t MAXLEN = 1000;
 
 /* readlines: read input lines */
-int readlines(char *lineptr[], int maxlines)
+int readlines(char *lineptr[], int maxlines, int fold)
 {
     int len, nlines;
     char *p, *line;
@@ -25,7 +64,10 @@ int readlines(char *lineptr[], int maxlines)
         else
         {
             line[len - 1] = '\0'; /* delete newline */
-            strcpy(p, line);
+            if (fold)
+                foldchars(p, line);
+            else
+                strcpy(p, line);
             lineptr[nlines++] = p;
         }
     }
@@ -72,9 +114,27 @@ void swap(void *v[], int i, int j)
     v[j] = temp;
 }
 
+void foldchars(char *dest, const char *src)
+
+{
+    int n = strlen(src);
+
+    int offset = 0;
+
+    while (n-- > 0)
+    {
+        offset = (*src >= 65 && *src <= 90) ? 32 : 0;
+        *dest++ = *src++ + offset;
+    }
+
+    *dest = '\0';
+}
+
 int numcmp(const char *s1, const char *s2)
+
 {
     double v1, v2;
+
     v1 = atof(s1);
     v2 = atof(s2);
     if (v1 < v2)
@@ -83,4 +143,14 @@ int numcmp(const char *s1, const char *s2)
         return 1;
     else
         return 0;
+}
+
+int strcmp_(const char *s, const char *t)
+{
+    int i;
+
+    for (i = 0; s[i] == t[i]; i++)
+        if (s[i] == '\0')
+            return 0;
+    return s[i] - t[i];
 }
