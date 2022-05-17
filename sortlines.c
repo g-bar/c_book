@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #define MAXLINES 5000    /* max #lines to be sorted */
 char *lineptr[MAXLINES]; /* pointers to text lines */
-int readlines(char *lineptr[], int nlines, int fold);
+int readlines(char *lineptr[], int nlines, int fold, int dir);
 void writelines(char *lineptr[], int nlines, int reversed);
 void qsort_(void *v[], int left, int right, int (*comp)(const void *, const void *));
 void swap(void *v[], int i, int j);
 int numcmp(const char *, const char *);
 int strcmp_(const char *s1, const char *s2);
-void foldchars(char *dest, const char *src);
+void foldchars(char *line);
 
 /* sort input lines */
 int main(int argc, char *argv[])
@@ -18,6 +19,7 @@ int main(int argc, char *argv[])
     int numeric = 0;
     int reverse = 0;
     int fold = 0;
+    int dir = 0;
     int c = 0;
     int i = 0;
 
@@ -31,10 +33,12 @@ int main(int argc, char *argv[])
                 reverse = 1;
             if (c == 'f')
                 fold = 1;
+            if (c == 'd')
+                dir = 1;
         }
 
     /* number of input lines read */
-    if ((nlines = readlines(lineptr, MAXLINES, fold)) >= 0)
+    if ((nlines = readlines(lineptr, MAXLINES, fold, dir)) >= 0)
     {
         qsort_((void **)lineptr, 0, nlines - 1, (int (*)(const void *, const void *))(numeric ? numcmp : strcmp_));
         writelines(lineptr, nlines, reverse);
@@ -50,7 +54,7 @@ int main(int argc, char *argv[])
 size_t MAXLEN = 1000;
 
 /* readlines: read input lines */
-int readlines(char *lineptr[], int maxlines, int fold)
+int readlines(char *lineptr[], int maxlines, int fold, int dir)
 {
     int len, nlines;
     char *p, *line;
@@ -64,10 +68,11 @@ int readlines(char *lineptr[], int maxlines, int fold)
         else
         {
             line[len - 1] = '\0'; /* delete newline */
+            strcpy(p, line);
+
             if (fold)
-                foldchars(p, line);
-            else
-                strcpy(p, line);
+                foldchars(p);
+
             lineptr[nlines++] = p;
         }
     }
@@ -114,20 +119,18 @@ void swap(void *v[], int i, int j)
     v[j] = temp;
 }
 
-void foldchars(char *dest, const char *src)
+void foldchars(char *line)
 
 {
-    int n = strlen(src);
+    int n = strlen(line);
 
     int offset = 0;
 
     while (n-- > 0)
     {
-        offset = (*src >= 65 && *src <= 90) ? 32 : 0;
-        *dest++ = *src++ + offset;
+        offset = (*line >= 65 && *line <= 90) ? 32 : 0;
+        *line++ += offset;
     }
-
-    *dest = '\0';
 }
 
 int numcmp(const char *s1, const char *s2)
