@@ -22,25 +22,62 @@ int main(int argc, char *argv[])
     int reverse = 0;
     int fold = 0;
     int dir = 0;
-    int c = 0;
+    int field = 0;
+    char c = 0;
     int i = 0;
+    int j = 0;
+    int argcc = argc;
     int (*cmpfun)(const void *, const void *) = (int (*)(const void *, const void *))strcmp_;
+    int **options = calloc(argc - 1, sizeof(*options));
+
+    for (i = 0; i < argc - 1; i++)
+    {
+        *(options + i) = calloc(5, sizeof(int));
+    }
+
+    i = 0;
+
+    char *t;
 
     while (--argc >= 1 && **++argv == '-')
     {
-
         while (c = *++*argv)
         {
+            if (field)
+            {
+                if (c == 'n')
+                    options[i][1] = 1;
+                else if (c == 'r')
+                    options[i][2] = 1;
+                else if (c == 'f')
+                    options[i][3] = 1;
+                else if (c == 'd')
+                    options[i][4] = 1;
 
-            if (c == 'n')
-                numeric = 1;
-            if (c == 'r')
-                reverse = 1;
-            if (c == 'f')
-                fold = 1;
-            if (c == 'd')
-                dir = 1;
+                if (isdigit(c) && options[i][0] == 0)
+                {
+                    options[i][0] = atoi(*argv);
+                }
+            }
+
+            else
+            {
+
+                if (c == 'n')
+                    numeric = 1;
+                if (c == 'r')
+                    reverse = 1;
+                if (c == 'f')
+                    fold = 1;
+                if (c == 'd')
+                    dir = 1;
+                if (c == 'k')
+                    field = 1;
+            }
         }
+        if (field)
+            i++;
+        field = 0;
     }
 
     /* number of input lines read */
