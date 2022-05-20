@@ -4,7 +4,7 @@
 #include <ctype.h>
 #define MAXLINES 5000    /* max #lines to be sorted */
 char *lineptr[MAXLINES]; /* pointers to text lines */
-int readlines(char *lineptr[], int nlines);
+int readlines(char *lineptr[], int nlines, int fields);
 void writelines(char *lineptr[], int nlines, int reversed);
 void qsort_(void *v[], int left, int right, int (*comp)(const void *, const void *));
 void swap(void *v[], int i, int j);
@@ -23,23 +23,21 @@ int main(int argc, char *argv[])
     int fold = 0;
     int dir = 0;
     int field = 0;
-    char c = 0;
-    int i = 0;
-    int j = 0;
-    int argcc = argc;
+    int fields = 0;
+    char c;
+    int i, j, k;
+    int nchars;
     int (*cmpfun)(const void *, const void *) = (int (*)(const void *, const void *))strcmp_;
     int **options = calloc(argc - 1, sizeof(*options));
+    char ***keys;
+    int atfield;
 
     for (i = 0; i < argc - 1; i++)
     {
         *(options + i) = calloc(5, sizeof(int));
     }
 
-    i = 0;
-
-    char *t;
-
-    while (--argc >= 1 && **++argv == '-')
+    for (i = 0; i < argc - 1 && **++argv == '-'; i++)
     {
         while (c = *++*argv)
         {
@@ -76,13 +74,43 @@ int main(int argc, char *argv[])
             }
         }
         if (field)
+        {
+            fields = 1;
             i++;
+        }
         field = 0;
     }
 
     /* number of input lines read */
-    if ((nlines = readlines(lineptr, MAXLINES)) >= 0)
+    if ((nlines = readlines(lineptr, MAXLINES, fields)) >= 0)
     {
+
+        if (fields)
+        {
+            keys = calloc(nlines, sizeof(*keys));
+            for (i = 0; i < nlines; i++)
+            {
+                keys[i] = calloc(argc - 1, sizeof(**keys));
+                nchars = strlen(lineptr[i]);
+                atfield = 0;
+
+                for (j = 0, k = 0; j < nchars && k < argc - 1; j++)
+                {
+                    if (!isblank(c = lineptr[i][j]) && !atfield)
+                    {
+                        keys[i][k] = lineptr[i] + j;
+                        atfield = 1;
+                        k++;
+                    }
+
+                    if (isblank(c) && atfield)
+                    {
+                        atfield = 0;
+                    }
+                }
+            }
+        }
+
         if (numeric)
             cmpfun = (int (*)(const void *, const void *))numcmp;
         else
@@ -109,7 +137,7 @@ int main(int argc, char *argv[])
 size_t MAXLEN = 1000;
 
 /* readlines: read input lines */
-int readlines(char *lineptr[], int maxlines)
+int readlines(char *lineptr[], int maxlines, int fields)
 {
     int len, nlines;
     char *p, *line;
