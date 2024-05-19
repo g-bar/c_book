@@ -13,6 +13,9 @@ int strcmp_(const char *s1, const char *s2);
 int strcmpf(const char *s1, const char *s2);
 int strcmpd(const char *s, const char *t);
 int strcmpfd(const char *s1, const char *s2);
+int fieldcmp(const char *s1, const char *s2);
+static int **options;
+static char ***keys;
 
 /* sort input lines */
 int main(int argc, char *argv[])
@@ -28,8 +31,7 @@ int main(int argc, char *argv[])
     int i, j, k;
     int nchars;
     int (*cmpfun)(const void *, const void *) = (int (*)(const void *, const void *))strcmp_;
-    int **options = calloc(argc - 1, sizeof(*options));
-    char ***keys;
+    options = calloc(argc - 1, sizeof(*options));
     int atfield;
 
     for (i = 0; i < argc - 1; i++)
@@ -39,7 +41,7 @@ int main(int argc, char *argv[])
 
     for (i = 0; i < argc - 1 && **++argv == '-'; i++)
     {
-        while (c = *++*argv)
+        while ((c = *++*argv))
         {
             if (field)
             {
@@ -111,7 +113,12 @@ int main(int argc, char *argv[])
             }
         }
 
-        if (numeric)
+        if (fields)
+        {
+            cmpfun = (int (*)(const void *, const void *))fieldcmp;
+        }
+
+        else if (numeric)
             cmpfun = (int (*)(const void *, const void *))numcmp;
         else
         {
@@ -196,6 +203,24 @@ void swap(void *v[], int i, int j)
     temp = v[i];
     v[i] = v[j];
     v[j] = temp;
+}
+
+int fieldcmp(const char *s1, const char *s2)
+{
+    int field = options[0][0];
+
+    int fields = 1;
+
+    while ((fields < field) && &s1)
+    {
+        while (isblank(&s1))
+            s1++;
+        while (!isblank(&s1))
+            s1++;
+        fields++;
+    }
+
+    return 0;
 }
 
 int numcmp(const char *s1, const char *s2)
